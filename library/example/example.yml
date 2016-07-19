@@ -1,0 +1,58 @@
+---
+# set controller01 networking
+- name: set networking
+  hosts: controller01
+  sudo: true
+  tasks:
+    - name: set networking
+      hostnetworking: InternalNIC=eth0 InternalIP=10.0.0.11 InternalMask=255.255.255.0 InternalGateway=10.0.0.1 InternalDNS1=4.4.4.4 InternalDNS2=8.8.8.8 ExternalNIC=eth1 Restart=true
+# set compute01 networking
+- name: set networking
+  hosts: compute01
+  sudo: true
+  tasks:
+    - name: set networking
+	    hostnetworking: InternalNIC=eth0 InternalIP=10.0.0.31 InternalMask=255.255.255.0 InternalGateway=10.0.0.1 InternalNDS1=4.4.4.4 InternalDNS2=8.8.8.8 ExternalNIC=eth1 Restart=true
+# set block01 networking
+- name: set networking
+  hosts: block01
+  sudo: true
+  tasks:
+    - name: set networking
+	    hostnetworking: InternalNIC=eth0 InternalIP=10.0.0.41 InternalMask=255.255.255.0 InternalGateway=10.0.0.1 InternalDNS1=4.4.4.4 InternalDNS2=8.8.8.8 ExternalNIC=eth1 Restart=true
+# set object01 networking
+- name: set networking
+  hosts: object01
+  sudo: true
+  tasks:
+    - name: set networking
+	    hostnetworking: InternalNIC=eth0 InternalIP=10.0.0.51 InternalMask=255.255.255.0 InternalGateway=10.0.0.1 InternalDNS1=4.4.4.4 InternalDNS2=8.8.8.8 ExternalNIC=eth1 Restart=true
+# set object02 networking
+- name: set networking
+  hosts: object02
+  sudo: true
+  tasks:
+    - name: set networking
+	    hostnetworking: InternalNIC=eth0 InternalIP=10.0.0.52 InternalMask=255.255.255.0 InternalGateway=10.0.0.1 InternalDNS1=4.4.4.4 InternalDNS2=8.8.8.8 ExternalNIC=eth1 Restart=true
+# install ntp server on controller01
+- name: install ntp server
+  hosts: controller01
+  sudo: true
+  tasks:
+    - name: install ntp server
+      ntpserver: Server=s1a.time.edu.cn
+# install ntp client on the other nodes
+# the computes hosts are all of your nodes except controllers
+- name: install ntp client
+  hosts: computes
+  sudo: true
+  tasks:
+    - name: install ntp client
+      ntpserver: Server=10.0.0.11
+# install openstack packages and python clients on all nodes
+- name: install openstack packages and python clients on all nodes
+  hosts: all
+  sudo: true
+  tasks:
+    - name: install openstack packages and python clients
+      ospackages: Version=liberty
